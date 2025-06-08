@@ -18,7 +18,7 @@ st.markdown(
 
 
 
-LOGO_URL_LARGE = "/Users/Iris/강남대_챗봇/KangNam.png"
+LOGO_URL_LARGE = "image/KangNam.png"
 
 st.logo(
     LOGO_URL_LARGE,
@@ -36,7 +36,7 @@ st.markdown("""
 col1, col2, col3 = st.columns([1, 2, 1])
 
 with col2:
-    st.image("/Users/Iris/강남대_챗봇/람브5.png", width=800)
+    st.image("image/Lamb.png", width=800)
 
 st.markdown("""
 <div style="
