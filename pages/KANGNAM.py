@@ -48,7 +48,7 @@ def load_pdf_with_tables(directory_path):
 
 @st.cache_resource
 def load_pdf():
-    file_path = r"/Users/Iris/강남대_챗봇/dat"
+    file_path = r"./dat"
     return load_pdf_with_tables(file_path)
 
 
@@ -253,7 +253,7 @@ if "messages" not in st.session_state:
 
 # 3. 기존 대화 렌더링
 profile = st.session_state["profile_message"]
-with st.chat_message("assistant", avatar="/Users/Iris/강남대_챗봇/lamb_chat.jpeg"):
+with st.chat_message("assistant", avatar="image/lamb_chat.jpeg"):
     st.markdown(
         f"""
         <div style="background-color:#f0f8ff; padding: 10px; border-radius: 10px;">
@@ -266,7 +266,7 @@ with st.chat_message("assistant", avatar="/Users/Iris/강남대_챗봇/lamb_chat
 
 for msg in st.session_state.messages:
     if msg["role"] == "assistant":
-        with st.chat_message("assistant", avatar="/Users/Iris/강남대_챗봇/lamb_chat.jpeg"):
+        with st.chat_message("assistant", avatar="image/lamb_chat.jpeg"):
             st.markdown(
                 f"""
                 <div style="background-color:#f0f8ff; padding: 15px; border-radius: 12px; font-size: 15px;">
@@ -334,7 +334,7 @@ if prompt_message:
         for keyword in matched_keywords:
             filenames = TEMPLATE_MAP.get(keyword, [])
             for filename in filenames:
-                file_path = os.path.join(r"/Users/Iris/강남대_챗봇/templates", filename)
+                file_path = os.path.join(r"./templates", filename)
                 try:
                     with open(file_path, "rb") as f:
                         file_bytes = f.read()
@@ -357,7 +357,7 @@ if prompt_message:
 
 
 # 2) UI 렌더링할 때
-    with st.chat_message("assistant", avatar="/Users/Iris/강남대_챗봇/lamb_chat.jpeg"):
+    with st.chat_message("assistant", avatar="image/lamb_chat.jpeg"):
         st.markdown(
             f"""
             <div style="background-color:#f0f8ff; padding: 15px; border-radius: 12px; font-size: 15px;">
