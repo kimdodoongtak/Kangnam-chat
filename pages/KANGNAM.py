@@ -23,9 +23,9 @@ from langchain_community.chat_message_histories.streamlit import StreamlitChatMe
 # 멀티 쿼리 리트리버
 from langchain.retrievers.multi_query import MultiQueryRetriever
 import logging
-load_dotenv("/Users/Iris/RAG/.env")
+load_dotenv()
 
-# 📄 PDF 문서 불러오기
+#PDF 문서 불러오기
 
 def load_pdf_with_tables(directory_path):
     docs = []
@@ -53,7 +53,7 @@ def load_pdf():
 
 
 
-# 🧠 벡터스토어 초기화 또는 로드
+#벡터스토어 초기화 또는 로드
 @st.cache_resource
 def get_or_create_vectorstore():
     persist_directory = "./FAISS_DB"
@@ -69,28 +69,28 @@ def get_or_create_vectorstore():
     vectorstore.save_local(persist_directory)
     return vectorstore
 
-# 📑 문서 포맷터
+#문서 포맷터
 def format_docs(docs):
     return "\n\n".join(doc.page_content for doc in docs)
 
 
-# 🔗 체인 구성
+#체인 구성
 @st.cache_resource
 def chaining():
     vectorstore = get_or_create_vectorstore()
     
-    # ✅ MultiQueryRetriever로 교체
+    #MultiQueryRetriever로 교체
     llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
     retriever = MultiQueryRetriever.from_llm(
         retriever=vectorstore.as_retriever(),
         llm=llm
     )
 
-    # ✅ 로그 출력 (원한다면 유지)
+    #로그 출력
     logging.basicConfig()
     logging.getLogger("langchain.retrievers.multi_query").setLevel(logging.INFO)
 
-    # 🔁 히스토리 기반 질문 리포맷
+    #히스토리 기반 질문 리포맷
     contextualize_q_system_prompt = """Given a chat history and the latest user question \
     which might reference context in the chat history, formulate a standalone question \
     which can be understood without the chat history. Do NOT answer the question, \
@@ -103,7 +103,7 @@ def chaining():
         ]
     )
 
-    # 🧠 답변 프롬프트
+    #답변 프롬프트
     qa_system_prompt = """
     You are 람브, a friendly and knowledgeable assistant who helps new university students.  
 Always answer in Korean, using warm, polite, and easy-to-understand language. 😊  
@@ -137,7 +137,7 @@ Your goal is to be kind, clear, and as informative as possible using both docume
         ]
     )
 
-    # 🔁 체인 구성
+    #체인 구성
     history_aware_retriever = create_history_aware_retriever(llm, retriever, contextualize_q_prompt)
     question_answer_chain = create_stuff_documents_chain(llm, qa_prompt)
     rag_chain = create_retrieval_chain(history_aware_retriever, question_answer_chain)
@@ -201,7 +201,7 @@ st.markdown(
 
 
 
-# 🖼️ 앱 인터페이스 시작
+#앱 인터페이스 시작
 st.header("강남대 챗봇 🐑")
 
 rag_chain = chaining()
@@ -354,7 +354,6 @@ if prompt_message:
         st.session_state.docs_with_scores = docs_with_scores
         st.session_state.download_list = download_list
 
-    # st.rerun() 호출하지 말고, 자연스럽게 다음 렌더링으로 넘어가도록
 
 
 # 2) UI 렌더링할 때
